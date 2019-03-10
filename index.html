@@ -7,7 +7,7 @@
     </head>
     <body>
         Playlist Name: <input type="text" name="playlistName" id="playlistName" /><br>
-        <button onclick="">Dump</button>
+        <button onclick="dumpWD()">Dump</button>
         <script>
             document.getElementById("playlistName").value = "WeeklyDiscover" + (new Date()).format("Y_W");
             function dumpWD(){
