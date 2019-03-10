@@ -121,7 +121,7 @@ app.spotify.getPlaylistTracks = function(id){
  */
 app.spotify.newPlaylist = function(name, items = []){
     if(app.spotify.access_token != null && app.spotify.access_token.trim() != "")
-        return Promise(function(resolve, reject){
+        return new Promise(function(resolve, reject){
             // Get user ID
             var xhr_userId = new XMLHttpRequest();
             xhr_userId.addEventListener("readystatechange",function(ev){
