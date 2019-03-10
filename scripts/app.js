@@ -38,7 +38,7 @@ app.spotify.authorize = function(callback){
         client_id: "3745a0d5599f4ad699afb25d9a48adec",
         response_type: "token",
         redirect_uri:"https://jacky9813.github.io/spotifyWeeklyDiscoverSaver/callback.html",
-        scope: "playlist-read-private playlist-modify-private",
+        scope: "playlist-read-private playlist-modify-public playlist-modify-private",
         state: app.registerState(function(data){
             setTimeout(function(){
                 app.spotify.authorize();
