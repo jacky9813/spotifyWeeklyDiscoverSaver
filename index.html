@@ -17,7 +17,7 @@
                         // Get playlist Tracks
                         app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
                             // Create a new playlist
-                            app.spotify.newPlaylist(document.getElementById("playlistName").value,playlistTracks.map(el=>el.uri))
+                            app.spotify.newPlaylist(document.getElementById("playlistName").value,playlistTracks.map(el=>el.track.uri))
                         })
                     })
                 })
