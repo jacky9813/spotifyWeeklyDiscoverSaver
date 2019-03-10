@@ -69,7 +69,7 @@ app.spotify.findPlaylist = function(name){
             var xhr = new XMLHttpRequest();
             xhr.addEventListener("readystatechange",function(ev){
                 if(ev.target.readyState == 4){
-                    if(ev.target.status == 200){
+                    if(parseInt(ev.target.status/100) == 2){
                         // Playlist got
                         console.log(ev.target.responseText);
                         try{
@@ -97,7 +97,7 @@ app.spotify.getPlaylistTracks = function(id){
             var xhr = new XMLHttpRequest();
             xhr.addEventListener("readystatechange",function(ev){
                 if(ev.target.readyState == 4){
-                    if(ev.target.status == 200){
+                    if(parseInt(ev.target.status/100) == 2){
                         try{
                             resolve(JSON.parse(ev.target.responseText).items);
                         }catch(e){
@@ -126,7 +126,7 @@ app.spotify.newPlaylist = function(name, items = []){
             var xhr_userId = new XMLHttpRequest();
             xhr_userId.addEventListener("readystatechange",function(ev){
                 if(ev.target.readyState == 4){
-                    if(ev.target.status == 200){
+                    if(parseInt(ev.target.status/100) == 2){
                         try{
                             var userData = JSON.parse(ev.target.responseText);
                         } catch(e){
@@ -135,7 +135,7 @@ app.spotify.newPlaylist = function(name, items = []){
                         var xhr_createPlaylist = new XMLHttpRequest();
                         xhr_createPlaylist.addEventListener("readystatechange",function(ev){
                             if(ev.target.readyState == 4){
-                                if(ev.target.status == 200){
+                                if(parseInt(ev.target.status/100) == 2){
                                     try{
                                         var playlistData = JSON.parse(ev.target.responseText)
                                     } catch(e){
