@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Spotify Weekly Discover Saver</title>
+        <script src="scripts/date.format.js"></script>
+        <script src="scripts/app.js"></script>
+    </head>
+    <body>
+        Playlist Name: <input type="text" name="playlistName" id="playlistName" /><br>
+        <button onclick="">Dump</button>
+        <script>
+            document.getElementById("playlistName").value = "WeeklyDiscover" + (new Date()).format("Y_W");
+            function dumpWD(){
+                app.spotify.authorize(function(){
+                    app.spotify.getPlaylist("Discovery Weekly").then(function(playlistDetail){
+                        app.spotify.newPlaylist(document.getElementById("playlistName"),playlistDetail.items.map(el => el.track.uri))
+                    })
+                })
+            }
+        </script>
+    </body>
+</html>

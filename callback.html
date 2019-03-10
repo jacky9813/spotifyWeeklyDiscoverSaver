@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Please Wait...</title>
+    </head>
+    <body>
+        <p>Please Wait...</p>
+        <script>
+            // Dump all hash and query section back to main window
+            var url = new URL(location.href);
+            var regex = new RegExp(/([^=]*)(=(.*))?/);
+
+            var search = {}
+            url.search.match(/([^&?]*)/g).filter(el => el.length>0).forEach(function(el){
+                var a = regex.exec(el).filter(e=>e!=null);
+                search[a[1]] = a.length>2?a[3]:null;
+            });
+
+            var hash = {}
+            url.hash.match(/([^&#]*)/g).filter(el => el.length>0).forEach(function(el){
+                var a = regex.exec(el).filter(e=>e!=null);
+                hash[a[1]] = a.length>2?a[3]:null;
+            })
+
+            var ret = {
+                hash: hash,
+                search: search
+            }
+
+            if(window.opener != null){
+                window.opener.postMessage(ret);
+            }
+
+            window.close();
+        </script>
+    </body>
+</html>
