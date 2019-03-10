@@ -59,7 +59,7 @@ app.spotify.authorize = function(callback){
     window.open(url,"_blank","menubar=0")
 }
 
-app.spotify.getPlaylist = function(name){
+app.spotify.findPlaylist = function(name){
     if(app.spotify.access_token != null && app.spotify.access_token.trim() != "")
         return new Promise(function(resolve, reject){
             var param = app.objectToURLSearchParams({
@@ -73,7 +73,7 @@ app.spotify.getPlaylist = function(name){
                         // Playlist got
                         console.log(ev.target.responseText);
                         try{
-                            resolve(JSON.parse(ev.target.responseText));
+                            resolve(JSON.parse(ev.target.responseText).playlists.items[0]);
                         } catch(e){
                             reject(e);
                         }
@@ -86,6 +86,30 @@ app.spotify.getPlaylist = function(name){
                 reject(ev);
             })
             xhr.open("GET","https://api.spotify.com/v1/search?"+param);
+            xhr.setRequestHeader("Authorization", app.spotify.token_type + " " + app.spotify.access_token);
+            xhr.send();
+        });
+}
+
+app.spotify.getPlaylistTracks = function(id){
+    if(app.spotify.access_token != null && app.spotify.access_token.trim() != "" && typeof(id) == "string" && id.trim() != "")
+        return new Promise(function(resolve,reject){
+            var xhr = new XMLHttpRequest();
+            xhr.addEventListener("readystatechange",function(ev){
+                if(ev.target.readyState == 4){
+                    if(ev.target.status == 200){
+                        try{
+                            resolve(JSON.parse(ev.target.responseText).track);
+                        }catch(e){
+                            reject(e);
+                        }
+                    } else {
+                        reject(ev.target.status);
+                    }
+                }
+            })
+            xhr.addEventListener("error",function(ev){reject(ev);})
+            xhr.open("GET","https://api.spotify.com/v1/playlists/" + id.trim() + "/tracks")
             xhr.setRequestHeader("Authorization", app.spotify.token_type + " " + app.spotify.access_token);
             xhr.send();
         });

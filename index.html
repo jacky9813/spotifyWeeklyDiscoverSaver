@@ -12,8 +12,13 @@
             document.getElementById("playlistName").value = "WeeklyDiscover" + (new Date()).format("Y_W");
             function dumpWD(){
                 app.spotify.authorize(function(){
-                    app.spotify.getPlaylist("Discovery Weekly").then(function(playlistDetail){
-                        app.spotify.newPlaylist(document.getElementById("playlistName"),playlistDetail.items.map(el => el.track.uri))
+                    // Get playlist ID
+                    app.spotify.getPlaylist("Discover Weekly").then(function(playlistDetail){
+                        // Get playlist Tracks
+                        app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
+                            // Create a new playlist
+                            app.spotify.newPlaylist(document.getElementById("playlistName").value,playlistTracks.map(el=>el.uri))
+                        })
                     })
                 })
             }
