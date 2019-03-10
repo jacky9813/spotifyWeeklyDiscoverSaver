@@ -9,7 +9,7 @@
         Playlist Name: <input type="text" name="playlistName" id="playlistName" /><br>
         <button onclick="dumpWD()">Dump</button>
         <script>
-            document.getElementById("playlistName").value = "WeeklyDiscover" + (new Date()).format("Y_W");
+            document.getElementById("playlistName").value = "WeeklyDiscover_" + (new Date()).format("Y_W");
             function dumpWD(){
                 app.spotify.authorize(function(){
                     // Get playlist ID
