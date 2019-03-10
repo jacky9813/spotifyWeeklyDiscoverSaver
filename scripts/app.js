@@ -70,8 +70,6 @@ app.spotify.findPlaylist = function(name){
             xhr.addEventListener("readystatechange",function(ev){
                 if(ev.target.readyState == 4){
                     if(parseInt(ev.target.status/100) == 2){
-                        // Playlist got
-                        console.log(ev.target.responseText);
                         try{
                             resolve(JSON.parse(ev.target.responseText).playlists.items[0]);
                         } catch(e){
