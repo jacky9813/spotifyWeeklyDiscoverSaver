@@ -13,7 +13,7 @@
             function dumpWD(){
                 app.spotify.authorize(function(){
                     // Get playlist ID
-                    app.spotify.getPlaylist("Discover Weekly").then(function(playlistDetail){
+                    app.spotify.findPlaylist("Discover Weekly").then(function(playlistDetail){
                         // Get playlist Tracks
                         app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
                             // Create a new playlist
