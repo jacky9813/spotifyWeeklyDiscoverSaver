@@ -99,7 +99,7 @@ app.spotify.getPlaylistTracks = function(id){
                 if(ev.target.readyState == 4){
                     if(ev.target.status == 200){
                         try{
-                            resolve(JSON.parse(ev.target.responseText).track);
+                            resolve(JSON.parse(ev.target.responseText).items);
                         }catch(e){
                             reject(e);
                         }
