@@ -45,7 +45,6 @@ app.spotify.authorize = function(callback){
             }, (parseInt(data.hash.expires_in) - 20) * 1000);
             app.spotify.access_token = data.hash.access_token;
             app.spotify.token_type = data.hash.token_type;
-            document.getElementById("spotify_authStatus").innerText = "OK"
             if(typeof(callback) == "function"){
                 callback();
             }
