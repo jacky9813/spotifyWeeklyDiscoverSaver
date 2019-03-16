@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" >
+        <title>Spotify Discover Weekly Saver</title>
+        <script src="../scripts/app.js"></script>
+        <style>
+            body{background: #191414;color: white;text-align: center;}
+            table {text-align: left;margin: 0 auto;}
+        </style>
+    </head>
+    <body>
+        <span id="status"></span>
+        <table id="statusTbl">
+            <tr><td id="userLogin"></td><td>User Logined</td></tr>
+            <tr><td id="findPList"></td><td>Finding Discover Weekly</td></tr>
+            <tr><td id="extractTracks"></td><td>Extracting tracks from playlists</td></tr>
+            <tr><td id="createPlaylist"></td><td>Createing new playlist</td></tr>
+        </table>
+        <script>
+            // Dump all hash and query section back to main window
+            var url = new URL(location.href);
+            var regex = new RegExp(/([^=]*)(=(.*))?/);
+
+            var search = {}
+            url.search.match(/([^&?]*)/g).filter(el => el.length>0).forEach(function(el){
+                var a = regex.exec(el).filter(e=>e!=null);
+                search[a[1]] = a.length>2?a[3]:null;
+            });
+
+            var hash = {}
+            url.hash.match(/([^&#]*)/g).filter(el => el.length>0).forEach(function(el){
+                var a = regex.exec(el).filter(e=>e!=null);
+                hash[a[1]] = a.length>2?a[3]:null;
+            })
+
+            var ret = {
+                hash: hash,
+                search: search
+            }
+
+            app.spotify.access_token = ret.hash.access_token;
+            app.spotify.token_type = ret.hash.token_type;
+            
+            if(app.spotify.access_token != null){
+                document.getElementById("userLogin").innerHTML = "&#x2714;";
+
+                // Get Discover Weekly Playlist ID
+                app.spotify.findPlaylist("Discover Weekly").then(function(playlistDetail){
+                    document.getElementById("findPList").innerHTML = "&#x2714;";
+                    // Get playlist Tracks
+                    app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
+                        document.getElementById("extractTracks").innerHTML = "&#x2714;";
+                        // Create a new playlist
+                        app.spotify.newPlaylist(document.getElementById("playlistName").value,playlistTracks.map(el=>el.track.uri)).then(function(){
+                            document.getElementById("createPlaylist").innerHTML = "&#x2714;";
+                        },function(reason){
+                            document.getElementById("createPlaylist").innerHTML = "&#x2718;";
+                        })
+                    },function(reason){
+                        document.getElementById("extractTracks").innerHTML = "&#x2718;";
+                    })
+                },function(reason){
+                    document.getElementById("findPList").innerHTML = "&#x2718;";
+                })
+            }else{
+                document.getElementById("userLogin").innerHTML = "&#x2718;";
+            }
+        </script>
+    </body>
+</html>

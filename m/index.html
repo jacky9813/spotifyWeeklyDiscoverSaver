@@ -2,19 +2,26 @@
 <html>
     <head>
         <title>Spotify Discover Weekly Saver</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" >
         <style>
             body{
                 background: #191414;
                 color: white;
+                text-align: center;
             }
-            button{
-
+            input[type=text] {
+                width: 80vw;
+                padding: 10px;
+                border-radius: 5px;
             }
-            button:active{
-
-            }
-            button:hover{
-
+            button {
+                width: 80vw;
+                background: none;
+                color: white;
+                border: 1px white solid;
+                border-radius: 5px;
+                padding: 5px;
+                margin-top: 15px;
             }
         </style>
         <script src="../scripts/date.format.js"></script>
@@ -29,7 +36,7 @@
                 <input type="hidden" name="response_type" value="token">
                 <input type="hidden" name="redirect_uri" value="https://jacky9813.github.io/spotifyWeeklyDiscoverSaver/m/create.html">
                 <input type="hidden" name="scope" value="playlist-read-private playlist-modify-public playlist-modify-private">
-                <input type="text" name="state" id="playlistName">
+                <input type="text" name="state" id="playlistName"><br>
                 <button type="submit">Save it!</button>
             </form>
         </div>
