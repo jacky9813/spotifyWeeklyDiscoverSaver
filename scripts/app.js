@@ -11,7 +11,8 @@ window.onmessage = function(e){
 }
 
 var app = {spotify: {access_token:"","token_type":""},
-states: {}
+states: {},
+localization: {}
 };
 
 /**
@@ -176,4 +177,10 @@ app.spotify.newPlaylist = function(name, items = []){
             xhr_userId.setRequestHeader("Authorization", app.spotify.token_type + " " + app.spotify.access_token);
             xhr_userId.send();
         });
+}
+app.localization.getLocale = function(locale, callback){
+    var css = document.createElement("link");
+    css.setAttribute("rel","stylesheet");
+    css.setAttribute("href","localization/" + navigator.language + ".css");
+    document.head.append(css);
 }

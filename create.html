@@ -7,18 +7,28 @@
         <style>
             body{background: #191414;color: white;text-align: center;}
             table {text-align: left;margin: 0 auto;}
+            span#status[data-status=p]::after{content:"Processing...";}
+            span#status[data-status=d]::after{content:"Done!";}
+            span#status[data-status=f]::after{content:"Failed";}
+            tr#userLogin td.label::after{content:"User Logined";}
+            tr#findPList td.label::after{content:"Finding Discover Weekly";}
+            tr#extractTracks td.label::after{content:"Extracting tracks from playlists";}
+            tr#createPlaylist td.label::after{content:"Creating new playlist";}
         </style>
+        <link rel="stylesheet" href="localization/zh-TW.css">
     </head>
     <body>
-        <span id="status">Processing...</span>
+        <span id="status" data-status="p"></span>
         <table id="statusTbl">
-            <tr><td id="userLogin"></td><td>User Logined</td></tr>
-            <tr><td id="findPList"></td><td>Finding Discover Weekly</td></tr>
-            <tr><td id="extractTracks"></td><td>Extracting tracks from playlists</td></tr>
-            <tr><td id="createPlaylist"></td><td>Createing new playlist</td></tr>
+            <tr id="userLogin"><td class="status"></td><td class="label"></td></tr>
+            <tr id="findPList"><td class="status"></td><td class="label"></td></tr>
+            <tr id="extractTracks"><td class="status"></td><td class="label"></td></tr>
+            <tr id="createPlaylist"><td class="status"></td><td class="label"></td></tr>
         </table>
         <script>
+            app.localization.getLocale();
             // Dump all hash and query section back to main window
+
             var url = new URL(location.href);
             var regex = new RegExp(/([^=]*)(=(.*))?/);
 
@@ -43,33 +53,33 @@
             app.spotify.token_type = ret.hash.token_type;
             
             if(app.spotify.access_token != null){
-                document.getElementById("userLogin").innerHTML = "&#x2714;";
+                document.querySelector("#userLogin .status").innerHTML = "&#x2714;";
 
                 // Get Discover Weekly Playlist ID
                 app.spotify.findPlaylist("Discover Weekly").then(function(playlistDetail){
-                    document.getElementById("findPList").innerHTML = "&#x2714;";
+                    document.querySelector("#findPList .status").innerHTML = "&#x2714;";
                     // Get playlist Tracks
                     app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
-                        document.getElementById("extractTracks").innerHTML = "&#x2714;";
+                        document.querySelector("#extractTracks .status").innerHTML = "&#x2714;";
                         // Create a new playlist
                         app.spotify.newPlaylist(ret.hash.state,playlistTracks.map(el=>el.track.uri)).then(function(){
-                            document.getElementById("createPlaylist").innerHTML = "&#x2714;";
-                            document.getElementById("status").innerText = "Done!";
+                        document.querySelector("#createPlaylist .status").innerHTML = "&#x2714;";
+                            document.querySelector("#status").setAttribute("data-status","d")
                         },function(reason){
-                            document.getElementById("createPlaylist").innerHTML = "&#x2718;";
-                            document.getElementById("status").innerText = "Failed";
+                            document.querySelector("#createPlaylist .status").innerHTML = "&#x2718;";
+                            document.querySelector("#status").setAttribute("data-status","f")
                         })
                     },function(reason){
-                        document.getElementById("extractTracks").innerHTML = "&#x2718;";
-                        document.getElementById("status").innerText = "Failed";
+                        document.querySelector("#extractTracks .status").innerHTML = "&#x2718;";
+                        document.querySelector("#status").setAttribute("data-status","f")
                     })
                 },function(reason){
-                    document.getElementById("findPList").innerHTML = "&#x2718;";
-                    document.getElementById("status").innerText = "Failed";
+                    document.querySelector("#findPList .status").innerHTML = "&#x2718;";
+                    document.querySelector("#status").setAttribute("data-status","f")
                 })
             }else{
-                document.getElementById("userLogin").innerHTML = "&#x2718;";
-                document.getElementById("status").innerText = "Failed";
+                document.querySelector("#userLogin .status").innerHTML = "&#x2718;";
+                document.querySelector("#status").setAttribute("data-status","f")
             }
         </script>
     </body>
