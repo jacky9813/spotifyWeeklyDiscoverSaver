@@ -8,26 +8,38 @@
                 background: #191414;
                 color: white;
                 text-align: center;
+                font-family: sans-serif;
             }
             input[type=text] {
-                width: 80vw;
                 padding: 10px;
                 border-radius: 5px;
             }
             button {
-                width: 80vw;
-                background: none;
+                background: #1DB954;
                 color: white;
-                border: 1px white solid;
+                border: none;
                 border-radius: 5px;
-                padding: 5px;
+                padding: 10px;
                 margin-top: 15px;
+                font-size: large;
+                font-weight: bold;
+            }
+            img {max-width: 70vw;margin: 10px;}
+            footer {
+                color: #CCC;
+                font-size: small;
+                margin-top: 20vh;
+            }
+            @media only screen and (max-width: 600px){
+                button{width: 90vw;}
+                input[type=text]{width: 80vw;}
             }
         </style>
         <script src="../scripts/date.format.js"></script>
     </head>
     <body>
         <div>
+            <img src="../spotify_logo.png"><br>
             Spotify Discover Weekly Saver
         </div>
         <div>
@@ -40,6 +52,7 @@
                 <button type="submit">Save it!</button>
             </form>
         </div>
+        <footer>Spotify, Spotify Logo are trademarks of Spotify AB.</footer>
         <script>
             document.getElementById("playlistName").value = "WeeklyDiscover_" + (new Date()).format("Y_W");
         </script>
