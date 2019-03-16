@@ -52,7 +52,7 @@
                     app.spotify.getPlaylistTracks(playlistDetail.id).then(function(playlistTracks){
                         document.getElementById("extractTracks").innerHTML = "&#x2714;";
                         // Create a new playlist
-                        app.spotify.newPlaylist(document.getElementById("playlistName").value,playlistTracks.map(el=>el.track.uri)).then(function(){
+                        app.spotify.newPlaylist(ret.hash.state,playlistTracks.map(el=>el.track.uri)).then(function(){
                             document.getElementById("createPlaylist").innerHTML = "&#x2714;";
                         },function(reason){
                             document.getElementById("createPlaylist").innerHTML = "&#x2718;";
