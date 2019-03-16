@@ -142,9 +142,15 @@ app.spotify.newPlaylist = function(name, items = []){
                                     if(playlistData.href != null){
                                         var xhr_itemAdd = new XMLHttpRequest();
                                         var regex = new RegExp(/[^:]*:[^:]*:[^:]*/);
-                                        xhr_itemAdd.addEventListener("readystatechange",function(ev){
-
-                                        });
+                                        xhr_itemAdd.addEventListener("readystatechange",(function(playlistData){return function(ev){
+                                            if(ev.target.readyState == 4){
+                                                if(parseInt(ev.target.status / 100) == 2){
+                                                    resolve(playlistData);
+                                                } else {
+                                                    reject(ev.target);
+                                                }
+                                            }
+                                        }})(playlistData));
                                         xhr_itemAdd.open("POST",playlistData.href + "/tracks");
                                         xhr_itemAdd.setRequestHeader("Authorization", app.spotify.token_type + " " + app.spotify.access_token);
                                         xhr_itemAdd.setRequestHeader("Content-Type","application/json");

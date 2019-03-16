@@ -10,7 +10,7 @@
         </style>
     </head>
     <body>
-        <span id="status"></span>
+        <span id="status">Processing...</span>
         <table id="statusTbl">
             <tr><td id="userLogin"></td><td>User Logined</td></tr>
             <tr><td id="findPList"></td><td>Finding Discover Weekly</td></tr>
@@ -54,17 +54,22 @@
                         // Create a new playlist
                         app.spotify.newPlaylist(ret.hash.state,playlistTracks.map(el=>el.track.uri)).then(function(){
                             document.getElementById("createPlaylist").innerHTML = "&#x2714;";
+                            document.getElementById("status").innerText = "Done!";
                         },function(reason){
                             document.getElementById("createPlaylist").innerHTML = "&#x2718;";
+                            document.getElementById("status").innerText = "Failed";
                         })
                     },function(reason){
                         document.getElementById("extractTracks").innerHTML = "&#x2718;";
+                        document.getElementById("status").innerText = "Failed";
                     })
                 },function(reason){
                     document.getElementById("findPList").innerHTML = "&#x2718;";
+                    document.getElementById("status").innerText = "Failed";
                 })
             }else{
                 document.getElementById("userLogin").innerHTML = "&#x2718;";
+                document.getElementById("status").innerText = "Failed";
             }
         </script>
     </body>
