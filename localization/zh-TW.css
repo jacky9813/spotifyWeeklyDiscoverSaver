@@ -1,0 +1,10 @@
+﻿span#status[data-status=p]::after{content:"處理中...";}
+span#status[data-status=d]::after{content:"完成!";}
+span#status[data-status=f]::after{content:"失敗";}
+tr#userLogin td.label::after{content:"已登入Spotify";}
+tr#findPList td.label::after{content:"獲取「每周新發現」清單資訊";}
+tr#extractTracks td.label::after{content:"獲取「每周新發現」歌曲";}
+tr#createPlaylist td.label::after{content:"建立新的播放清單";}
+#title::after{content:"Spotify 每周新發現儲存工具"}
+#playlistNameLabel::after{content:"播放清單名稱:"}
+button[type=submit]::after{content:"儲存"}
